@@ -6,5 +6,25 @@ image: Ubuntu1804
 shallow_clone: true
 services:
 - docker
+environment:
+  DOCKER_USER:
+    secure: Nr7bDvSp07T3WIg3X3l5jg==
+  DOCKER_PASS:
+    secure: hOx6eh/5WYE/05s/mtOUZqGLifWzRGMToqJaZ7+EUuQ=
 build_script:
 - pwsh: docker build -t besttrace:${env:APPVEYOR_BUILD_VERSION} .
+deploy_script:
+- pwsh: >-
+    IF (${env:APPVEYOR_REPO_TAG} -eq "true") {
+
+    docker login -u="$env:DOCKER_USER" -p="$env:DOCKER_PASS"
+
+    docker tag besttrace:${env:APPVEYOR_BUILD_VERSION} sanjusss/besttrace:latest
+
+    docker push sanjusss/besttrace:latest
+
+    docker tag besttrace:${env:APPVEYOR_BUILD_VERSION} sanjusss/besttrace:${env:APPVEYOR_BUILD_VERSION}
+
+    docker push sanjusss/besttrace:${env:APPVEYOR_BUILD_VERSION}
+
+    }
