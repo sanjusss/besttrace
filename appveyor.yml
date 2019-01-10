@@ -23,8 +23,8 @@ deploy_script:
 
     docker push sanjusss/besttrace:latest
 
-    docker tag besttrace:${env:APPVEYOR_BUILD_VERSION} sanjusss/besttrace:${env:APPVEYOR_BUILD_VERSION}
+    docker tag besttrace:${env:APPVEYOR_BUILD_VERSION} sanjusss/besttrace:${env:APPVEYOR_REPO_TAG_NAME}
 
-    docker push sanjusss/besttrace:${env:APPVEYOR_BUILD_VERSION}
+    docker push sanjusss/besttrace:${env:APPVEYOR_REPO_TAG_NAME}
 
     }
